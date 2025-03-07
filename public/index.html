@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luigi's Shed</title>
+    <style>
+      /* UI STUFF */
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url('assets/background.jpg'); 
+        background-size: cover; 
+        background-position: center; 
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.5); 
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 20px;
+        font-size: 20px;
+        border: none;
+        cursor: pointer;
+        margin: 10px;
+        border-radius: 5px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      h1 {
+        font-size: 36px;
+        color: white; 
+      }
+
+      p {
+        
+        color: white; 
+      }
+    </style>
+  </head>
+  <body>
+
+    <audio id="background-music" autoplay loop>
+      <source src="assets/theme.mp3" type="audio/mp3">
+    </audio>
+  
+
+    <div class="container">
+      <h1>Welcome to Luigi's Shed</h1>
+      <p>Work together to kill all the ghosts - or compete against each other for the high score!</p>
+      <h1>Select an Option</h1>
+      <button onclick="window.location.href='collaborate.html'">Collaborate</button>
+      <button onclick="window.location.href='compete.html'">Compete</button>
+    </div>
+
+    <script>
+      //getting the audio to work on multiple devices 
+      window.onload = function() {
+        const audio = document.getElementById('background-music');
+        audio.play().catch((error) => {
+          console.log("autoplay failed:", error);
+        });
+      };
+    </script>
+  </body>
+</html>

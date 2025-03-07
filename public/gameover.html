@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over</title>
+    <style>
+        /* UI STUFF */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('assets/gameoverscreen.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5); 
+            padding: 20px;
+            border-radius: 10px;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 20px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        h1 {
+            font-size: 36px;
+            color: white;
+        }
+        #scoreboard, #game-outcome {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="assets/gameover.mp3" type="audio/mp3">
+      </audio>
+  
+    <div class="container">
+        <h1>Game Over</h1>
+        <div id="game-outcome"></div>
+        <div id="scoreboard"></div>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const scores = JSON.parse(localStorage.getItem("playerScores") || "{}");
+            const gameOutcome = localStorage.getItem("gameOutcome") || "No outcome recorded.";
+            const gameMode = localStorage.getItem("gameMode") || "collaborative"; //get the game mode
+            
+            console.log("Loaded Scores:", scores);
+            console.log("Game Outcome:", gameOutcome);
+            console.log("Game Mode:", gameMode);
+    
+            document.getElementById("game-outcome").innerHTML = `<h2>${gameOutcome}</h2>`;
+    
+            let scoreText = "<h2>Final Scores:</h2>";
+    
+            if (gameMode === "collaborative") {
+                //show the message for collaborative mode
+                if (Object.keys(scores).length === 0) {
+                    scoreText += "<p>No scores recorded.</p>";
+                } else {
+                    Object.entries(scores).forEach(([playerId, playerData]) => {
+                        scoreText += `<p>Player ${playerId}: ${playerData.score}</p>`;
+                    });
+                }
+            } else if (gameMode === "competitive") {
+                //show the message for competitive mode
+                if (Object.keys(scores).length === 0) {
+                    scoreText += "<p>No scores recorded.</p>";
+                } else {
+                    scoreText += "<p>Competitive game: The player with the most kills wins!</p>";
+                    Object.entries(scores).forEach(([playerId, playerData]) => {
+                        scoreText += `<p>Player ${playerId}: ${playerData.score} (${playerData.result})</p>`; 
+                    });
+                }
+            }
+    
+            document.getElementById("scoreboard").innerHTML = scoreText;
+        });
+    
+        //go back to the start screen
+        function restartGame() {
+            localStorage.clear();
+            window.location.href = "index.html"; 
+        }
+    </script>
+    
+</body>
+</html>
